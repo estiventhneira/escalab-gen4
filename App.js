@@ -1,13 +1,27 @@
 import React from 'react';
 import {SafeAreaView} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Home from './src/screens/Home';
+import Cart from './src/screens/Cart';
+import ProductDetails from './src/screens/ProductDetails';
+
+const MainStack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <SafeAreaView style={{backgroundColor: '#2d2e32'}}>
-      <Home />
-    </SafeAreaView>
+    <NavigationContainer>
+      <MainStack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <MainStack.Screen name="Home" component={Home} />
+        <MainStack.Screen name="Cart" component={Cart} />
+        <MainStack.Screen name="ProductDetails" component={ProductDetails} />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 };
 
