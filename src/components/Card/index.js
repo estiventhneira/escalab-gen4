@@ -1,12 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, TouchableOpacity, Image, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, Image, View} from 'react-native';
 import BuyButton from './BuyButton';
 
-const Card = ({children, url, modelo}) => {
+const Card = ({children, item}) => {
+
+  const { modelo, url, id } = item;
+
   return (
     <TouchableOpacity style={{margin: 20}}>
-      <View style={{alignItems: 'center'}}>
+      <View style={styles.container}>
         <Image
           source={{uri: url}}
           style={{
@@ -17,12 +20,41 @@ const Card = ({children, url, modelo}) => {
           }}
         />
       </View>
-      <Text style={{fontSize: 18, fontWeight: '700', color: 'white'}}>
-        {children}
-      </Text>
+      
+      <View style={styles.containerNumber}>
+        <Text style={styles.colorNumber}># {id}</Text>
+      </View>
+      <Text style={styles.description}>{children}</Text>
       <BuyButton modelo={modelo} />
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: 10
+  },
+  description:{
+    fontSize: 18, 
+    fontWeight: '700', 
+    color: 'white', 
+    marginVertical: 15
+  },
+  containerNumber:{
+    justifyContent:'center',
+    alignItems:'center',
+    width: 50,
+  },
+  colorNumber:{
+    fontWeight:'bold',
+    fontSize: 20,
+    color: 'white',
+    backgroundColor: '#d22923',
+    borderRadius: 50,
+    padding: 10,
+  }
+})
 
 export default Card;

@@ -10,7 +10,8 @@ const buyButton = ({modelo}) => {
         padding: 10,
         marginVertical: 15,
         borderRadius: 5,
-        width: '40%',
+        flex: 1,
+        alignItems:'center'
       }}>
       <Text style={{color: 'white', fontSize: 18, fontWeight: '700'}}>
         {modelo}
