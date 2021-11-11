@@ -31,7 +31,6 @@ const Card = ({children, url, modelo, id}) => {
           {children}
         </Text>
       </TouchableOpacity>
-
       <BuyButton modelo={modelo} />
     </>
   );

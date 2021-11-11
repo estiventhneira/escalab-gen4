@@ -10,7 +10,7 @@ const index = ({navigation}) => {
   const [text, setText] = useState('');
 
   return (
-    <SafeAreaView style={{backgroundColor: 'black'}}>
+    <SafeAreaView style={{backgroundColor: '#2d2e32'}}>
       <ScrollView>
         <Header />
         <SearchBar setText={setText} />
