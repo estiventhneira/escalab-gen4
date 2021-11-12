@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {ScrollView, Text} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
 import Header from '../../components/Header';
 import Card from '../../components/Card';
+import Button from '../../components/Button';
 import SearchBar from '../../components/SearchBar';
 import {data} from '../../assets/data';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, StyleSheet} from 'react-native-safe-area-context';
 
 const index = ({navigation}) => {
   const [text, setText] = useState('');
@@ -28,6 +29,7 @@ const index = ({navigation}) => {
             </Card>
           );
         })}
+        <Button BgColor={'black'}>Go to Space X</Button>
       </ScrollView>
     </SafeAreaView>
   );
