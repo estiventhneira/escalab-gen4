@@ -4,7 +4,6 @@ import {data} from '../../assets/data';
 
 const index = ({navigation, route}) => {
   const {id} = route.params;
-  console.log(id);
   return (
     <View style={{flexDirection: 'column'}}>
       <TouchableOpacity

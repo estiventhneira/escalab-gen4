@@ -7,7 +7,6 @@ import {useNavigation} from '@react-navigation/native';
 const Card = ({children, url, modelo, id}) => {
   const navigation = useNavigation();
 
-  console.log(navigation);
   return (
     <>
       <TouchableOpacity

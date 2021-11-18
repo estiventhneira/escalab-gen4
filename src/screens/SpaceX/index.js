@@ -1,32 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
-import axios from 'axios';
+import {useQuery} from '@apollo/client';
+import gql from 'graphql-tag';
 
 const index = () => {
-  const [rockets, setRockets] = useState({});
+  const {loading, error, data} = useQuery(CHARACTERSBYIDS);
+  console.log(data, loading, error);
 
-  useEffect(() => {
-    axios
-      .get('https://api.spacexdata.com/latest/rockets')
-      .then(e => setRockets(e.data));
-  }, []);
-
-  console.log(rockets);
+  const CHARACTERSBYIDS = gql`
+    query characters {
+      charactersByIds(ids: [1, 2]) {
+        name
+        id
+        status
+        gender
+        species
+        image
+      }
+    }
+  `;
 
   return (
     <ScrollView>
-      <Text>Screen de Space X</Text>
-      {rockets.map(item => {
-        return (
-          <View>
-            <Image
-              source={{uri: item.flickr_images[0]}}
-              style={{height: 300, width: 300}}
-            />
-            <Text>{item.name}</Text>
-          </View>
-        );
-      })}
+      <Text>Screen de Space X </Text>
     </ScrollView>
   );
 };
