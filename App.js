@@ -6,6 +6,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './src/screens/Home';
 import Cart from './src/screens/Cart';
 import ProductDetails from './src/screens/ProductDetails';
+import ProductDetailsRandM from './src/screens/ProductDetailsRandM';
+
 import SpaceX from './src/screens/SpaceX';
 import {
   ApolloClient,
@@ -20,22 +22,26 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const MainStack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <MainStack.Navigator
+        <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{
             headerShown: false,
           }}>
-          <MainStack.Screen name="Home" component={Home} />
-          <MainStack.Screen name="Cart" component={Cart} />
-          <MainStack.Screen name="SpaceX" component={SpaceX} />
-          <MainStack.Screen name="ProductDetails" component={ProductDetails} />
-        </MainStack.Navigator>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Cart" component={Cart} />
+          <Stack.Screen name="SpaceX" component={SpaceX} />
+          <Stack.Screen name="ProductDetails" component={ProductDetails} />
+          <Stack.Screen
+            name="ProductDetailsRandM"
+            component={ProductDetailsRandM}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
   );

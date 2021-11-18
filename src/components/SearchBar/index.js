@@ -14,6 +14,7 @@ const index = ({setText}) => {
           borderRadius: 10,
           paddingHorizontal: 10,
           fontSize: 20,
+          paddingVertical: 10,
         }}
       />
     </View>

@@ -7,12 +7,10 @@ import {useNavigation} from '@react-navigation/native';
 const Card = ({children, url, modelo, id}) => {
   const navigation = useNavigation();
 
-  console.log(navigation);
   return (
     <>
       <TouchableOpacity
         onPress={() => {
-          console.log('Touch!');
           navigation.navigate('ProductDetails', {id});
         }}
         style={{margin: 20}}>
