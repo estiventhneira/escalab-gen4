@@ -1,29 +1,74 @@
-import React from 'react';
-import {View, Text, Image, ScrollView} from 'react-native';
-import {useQuery} from '@apollo/client';
-import gql from 'graphql-tag';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  Touchable,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
+import axios from 'axios';
+import {gql, useQuery} from '@apollo/client';
+import {useNavigation} from '@react-navigation/native';
+
+const CHARACTERSBYIDS = gql`
+  query characters {
+    charactersByIds(ids: [1, 2, 3, 4, 5, 6, 7, 8]) {
+      name
+      id
+      image
+    }
+  }
+`;
 
 const index = () => {
-  const {loading, error, data} = useQuery(CHARACTERSBYIDS);
-  console.log(data, loading, error);
+  const navigation = useNavigation();
 
-  const CHARACTERSBYIDS = gql`
-    query characters {
-      charactersByIds(ids: [1, 2]) {
-        name
-        id
-        status
-        gender
-        species
-        image
-      }
-    }
-  `;
+  const {
+    error: errorLocation,
+    data: dataLocation,
+    loading: loadingLocation,
+  } = useQuery(CHARACTERSBYIDS);
 
   return (
-    <ScrollView>
-      <Text>Screen de Space X </Text>
-    </ScrollView>
+    <SafeAreaView style={{padding: 15}}>
+      <ScrollView>
+        <TouchableOpacity
+          style={{padding: 10, backgroundColor: 'black'}}
+          onPress={() => navigation.goBack()}>
+          <Text style={{color: 'white'}}>Ir Atras</Text>
+        </TouchableOpacity>
+        <Text>Screen de Space X</Text>
+
+        {loadingLocation ? <Text>...</Text> : <Text>Data</Text>}
+        {errorLocation ? <Text>Hubo un error de conexión</Text> : null}
+
+        {dataLocation &&
+          dataLocation.charactersByIds.map(item => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('ProductDetailsRandM', {id: item.id});
+                }}
+                style={{
+                  marginBottom: 30,
+                }}>
+                <Image
+                  source={{uri: item.image}}
+                  style={{
+                    height: 300,
+                    width: '90%',
+                    marginVertical: 20,
+                    borderRadius: 10,
+                  }}
+                />
+                <Text>{item.name}</Text>
+              </TouchableOpacity>
+            );
+          })}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

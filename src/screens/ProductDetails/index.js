@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {data} from '../../assets/data';
 
 const index = ({navigation, route}) => {
   const {id} = route.params;
   return (
-    <View style={{flexDirection: 'column'}}>
+    <SafeAreaView style={{flexDirection: 'column'}}>
       <TouchableOpacity
         style={{
           backgroundColor: 'black',
@@ -54,7 +55,7 @@ const index = ({navigation, route}) => {
         />
       </View>
       <Text style={{padding: 20, fontSize: 20}}>{data[id].description}</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

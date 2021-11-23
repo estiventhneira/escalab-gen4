@@ -13,9 +13,23 @@ import {
 import Home from './src/screens/Home';
 import Cart from './src/screens/Cart';
 import ProductDetails from './src/screens/ProductDetails';
-import SpaceX from './src/screens/SpaceX';
+import ProductDetailsRandM from './src/screens/ProductDetailsRandM';
 
-const MainStack = createNativeStackNavigator();
+import SpaceX from './src/screens/SpaceX';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  useQuery,
+  gql,
+} from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'https://rickandmortyapi.com/graphql',
+  cache: new InMemoryCache(),
+});
+
+const Stack = createNativeStackNavigator();
 
 const client = new ApolloClient({
   uri: 'https://rickandmortyapi.com/graphql',
@@ -26,16 +40,20 @@ const App = () => {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <MainStack.Navigator
+        <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{
             headerShown: false,
           }}>
-          <MainStack.Screen name="Home" component={Home} />
-          <MainStack.Screen name="Cart" component={Cart} />
-          <MainStack.Screen name="SpaceX" component={SpaceX} />
-          <MainStack.Screen name="ProductDetails" component={ProductDetails} />
-        </MainStack.Navigator>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Cart" component={Cart} />
+          <Stack.Screen name="SpaceX" component={SpaceX} />
+          <Stack.Screen name="ProductDetails" component={ProductDetails} />
+          <Stack.Screen
+            name="ProductDetailsRandM"
+            component={ProductDetailsRandM}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
   );

@@ -11,7 +11,6 @@ const Card = ({children, url, modelo, id}) => {
     <>
       <TouchableOpacity
         onPress={() => {
-          console.log('Touch!');
           navigation.navigate('ProductDetails', {id});
         }}
         style={{margin: 20}}>
