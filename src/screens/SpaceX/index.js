@@ -5,11 +5,11 @@ import {
   Image,
   ScrollView,
   Touchable,
+  SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
 import {gql, useQuery} from '@apollo/client';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 
 const CHARACTERSBYIDS = gql`
