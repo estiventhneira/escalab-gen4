@@ -2,13 +2,6 @@ import React from 'react';
 import {SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql,
-} from '@apollo/client';
 
 import Home from './src/screens/Home';
 import Cart from './src/screens/Cart';
@@ -23,11 +16,6 @@ import {
   useQuery,
   gql,
 } from '@apollo/client';
-
-const client = new ApolloClient({
-  uri: 'https://rickandmortyapi.com/graphql',
-  cache: new InMemoryCache(),
-});
 
 const Stack = createNativeStackNavigator();
 
