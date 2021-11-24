@@ -1,8 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {View, Text, Image} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  Touchable,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 
 const Header = () => {
+  const ref = useRef();
+  console.log(ref);
   return (
     <View
       style={{
@@ -16,6 +25,10 @@ const Header = () => {
       <Text style={{color: 'white', fontSize: 25, fontWeight: '800'}}>
         Bienvenido
       </Text>
+      <TouchableOpacity>
+        <Text style={{color: 'white'}}>Boton </Text>
+      </TouchableOpacity>
+      <TextInput ref={ref} />
       <View>
         <Image
           source={require('../../assets/Tesla-Emblema.png')}
