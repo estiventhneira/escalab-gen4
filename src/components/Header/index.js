@@ -11,7 +11,6 @@ import {
 
 const Header = () => {
   const ref = useRef();
-  console.log(ref);
   return (
     <View
       style={{

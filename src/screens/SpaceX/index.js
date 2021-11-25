@@ -14,7 +14,10 @@ import {useNavigation} from '@react-navigation/native';
 
 const index = () => {
   const navigation = useNavigation();
-  const [characters, setCharacters] = useState([1, 2, 3, 4, 5]);
+  const originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [characters, setCharacters] = useState(originalArray);
+  const [page, setPage] = useState(0);
+  console.log(page);
 
   const CHARACTERSBYIDS = gql`
     query characters($ids: [ID!]!) {
@@ -25,6 +28,15 @@ const index = () => {
       }
     }
   `;
+
+  useEffect(() => {
+    const multiplo = 10 * page;
+    const filtered = originalArray.map(element => {
+      const newElement = element + multiplo;
+      return newElement;
+    });
+    setCharacters(filtered);
+  }, [page]);
 
   const {
     error: errorLocation,
@@ -104,6 +116,32 @@ const index = () => {
               </View>
             );
           })}
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <TouchableOpacity
+            onPress={() => {
+              if (page > 0) {
+                setPage(page - 1);
+              }
+            }}
+            style={{
+              backgroundColor: 'blue',
+              padding: 10,
+              borderRadius: 5,
+            }}>
+            <Text style={{color: 'white'}}>Página anterior</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setPage(page + 1);
+            }}
+            style={{
+              backgroundColor: 'blue',
+              padding: 10,
+              borderRadius: 5,
+            }}>
+            <Text style={{color: 'white'}}>Siguiente página</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
