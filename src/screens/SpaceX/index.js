@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -9,25 +9,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
-import {gql, useQuery} from '@apollo/client';
+import {useQuery} from '@apollo/client';
+import {CHARACTERSBYIDS} from './graphql/queries';
 import {useNavigation} from '@react-navigation/native';
+import {CartContext} from '../../Context';
 
 const index = () => {
   const navigation = useNavigation();
   const originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [characters, setCharacters] = useState(originalArray);
   const [page, setPage] = useState(0);
-  console.log(page);
-
-  const CHARACTERSBYIDS = gql`
-    query characters($ids: [ID!]!) {
-      charactersByIds(ids: $ids) {
-        name
-        id
-        image
-      }
-    }
-  `;
+  const context = useContext(CartContext);
+  const {cart, setCart} = context;
+  const [dataCache, setDataCache] = useState(false);
 
   useEffect(() => {
     const multiplo = 10 * page;
@@ -35,7 +29,8 @@ const index = () => {
       const newElement = element + multiplo;
       return newElement;
     });
-    setCharacters(filtered);
+    const allArrays = filtered.concat(characters);
+    setCharacters(allArrays);
   }, [page]);
 
   const {
@@ -44,21 +39,39 @@ const index = () => {
     loading: loadingLocation,
   } = useQuery(CHARACTERSBYIDS, {variables: {ids: characters}});
 
+  console.log({errorLocation, dataLocation, loadingLocation});
+
+  useEffect(() => {
+    if (dataLocation) {
+      setDataCache(dataLocation);
+    }
+    return;
+  }, [dataLocation]);
+
   return (
     <SafeAreaView style={{padding: 15}}>
       <ScrollView>
-        <TouchableOpacity
-          style={{padding: 10, backgroundColor: 'black'}}
-          onPress={() => navigation.goBack()}>
-          <Text style={{color: 'white'}}>Ir Atras</Text>
-        </TouchableOpacity>
-        <Text>Screen de Space X</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+          }}>
+          <TouchableOpacity
+            style={{padding: 15, width: '30%', backgroundColor: 'black'}}
+            onPress={() => navigation.goBack('Cart')}>
+            <Text style={{color: 'white'}}>Ir Atras</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{padding: 15, width: '30%', backgroundColor: 'black'}}
+            onPress={() => navigation.navigate('Cart')}>
+            <Text style={{color: 'white'}}>Ir al Carrito</Text>
+          </TouchableOpacity>
+        </View>
 
-        {loadingLocation ? <Text>...</Text> : <Text>Data</Text>}
         {errorLocation ? console.log(errorLocation) : null}
 
-        {dataLocation &&
-          dataLocation.charactersByIds.map(item => {
+        {dataCache &&
+          dataCache.charactersByIds.map(item => {
             return (
               <View style={{width: '100%'}}>
                 <TouchableOpacity
@@ -79,7 +92,10 @@ const index = () => {
                       borderRadius: 10,
                     }}
                   />
-                  <Text>{item.name}</Text>
+                  <Text
+                    style={{fontSize: 20, fontWeight: '700', color: 'gray'}}>
+                    {item.name}
+                  </Text>
                 </TouchableOpacity>
                 <View
                   style={{
@@ -88,6 +104,10 @@ const index = () => {
                     justifyContent: 'space-around',
                   }}>
                   <TouchableOpacity
+                    onPress={() => {
+                      const parseId = parseInt(item.id, 10);
+                      setCart([...cart, parseId]);
+                    }}
                     style={{
                       backgroundColor: 'green',
                       width: 150,
@@ -95,22 +115,6 @@ const index = () => {
                       borderRadius: 5,
                     }}>
                     <Text style={{color: 'white'}}>Comprar</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() => {
-                      const filtered = characters.filter(function (element) {
-                        return element != item.id;
-                      });
-                      setCharacters(filtered);
-                    }}
-                    style={{
-                      backgroundColor: 'red',
-                      width: 150,
-                      padding: 10,
-                      borderRadius: 5,
-                    }}>
-                    <Text style={{color: 'white'}}>Eliminar</Text>
                   </TouchableOpacity>
                 </View>
               </View>
