@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 
 const Header = () => {
+  const navigation = useNavigation();
   const ref = useRef();
   return (
     <View
@@ -24,7 +26,10 @@ const Header = () => {
       <Text style={{color: 'white', fontSize: 25, fontWeight: '800'}}>
         Bienvenido
       </Text>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Camera');
+        }}>
         <Text style={{color: 'white'}}>Boton </Text>
       </TouchableOpacity>
       <TextInput ref={ref} />

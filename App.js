@@ -7,6 +7,7 @@ import Home from './src/screens/Home';
 import Cart from './src/screens/Cart';
 import ProductDetails from './src/screens/ProductDetails';
 import ProductDetailsRandM from './src/screens/ProductDetailsRandM';
+import Camera from './src/screens/Camera';
 import Context from './src/Context';
 
 import SpaceX from './src/screens/SpaceX';
@@ -36,6 +37,8 @@ const App = () => {
               headerShown: false,
             }}>
             <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Camera" component={Camera} />
+
             <Stack.Screen name="Cart" component={Cart} />
             <Stack.Screen name="SpaceX" component={SpaceX} />
             <Stack.Screen name="ProductDetails" component={ProductDetails} />

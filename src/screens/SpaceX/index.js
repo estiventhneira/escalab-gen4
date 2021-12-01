@@ -7,6 +7,7 @@ import {
   Touchable,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
 import {useQuery} from '@apollo/client';
@@ -39,8 +40,6 @@ const index = () => {
     loading: loadingLocation,
   } = useQuery(CHARACTERSBYIDS, {variables: {ids: characters}});
 
-  console.log({errorLocation, dataLocation, loadingLocation});
-
   useEffect(() => {
     if (dataLocation) {
       setDataCache(dataLocation);
@@ -69,6 +68,10 @@ const index = () => {
         </View>
 
         {errorLocation ? console.log(errorLocation) : null}
+
+        {loadingLocation ? (
+          <ActivityIndicator size="large" style={{padding: 20}} />
+        ) : null}
 
         {dataCache &&
           dataCache.charactersByIds.map(item => {

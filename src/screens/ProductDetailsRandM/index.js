@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,17 @@ import {
   SafeAreaView,
   Modal,
 } from 'react-native';
+import ModalBuyItem from '../../components/ModalBuyItem';
+import ModalDeleteItem from '../../components/ModalDeleteItem';
+import {CartContext} from '../../Context';
 import {useQuery, gql} from '@apollo/client';
 import {CHARACTER} from '../../graphql/queries';
 
 const index = ({navigation, route}) => {
+  const context = useContext(CartContext);
+  const {cart} = context;
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const {id} = route.params;
   const {data, error, loading} = useQuery(CHARACTER, {
     variables: {id: id},
@@ -23,55 +29,19 @@ const index = ({navigation, route}) => {
     day: 'numeric',
     timeZone: 'utc',
   });
+
   return (
     <SafeAreaView style={{flexDirection: 'column'}}>
-      <Modal visible={modalIsOpen} transparent={true}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'white',
-              width: '80%',
-              height: '20%',
-            }}>
-            <Text style={{marginBottom: 20}}>
-              estás seguro de añadir este artículo?
-            </Text>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: 'black',
-                  padding: 6,
-                  borderRadius: 5,
-                  margin: 5,
-                }}
-                onPress={() => {
-                  setModalIsOpen(false);
-                }}>
-                <Text style={{fontSize: 15, color: 'white'}}>Sí Comprar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: 'black',
-                  padding: 6,
-                  borderRadius: 5,
-                  margin: 5,
-                }}
-                onPress={() => {
-                  setModalIsOpen(false);
-                }}>
-                <Text style={{fontSize: 15, color: 'white'}}>No, Eliminar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <ModalBuyItem
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+        character={character}
+      />
+      <ModalDeleteItem
+        modalIsOpen={modalDeleteIsOpen}
+        setModalIsOpen={setModalDeleteIsOpen}
+        character={character}
+      />
       <TouchableOpacity
         style={{
           backgroundColor: 'black',
@@ -92,9 +62,9 @@ const index = ({navigation, route}) => {
           margin: 10,
         }}
         onPress={() => {
-          navigation.push('ProductDetails');
+          navigation.navigate('Cart');
         }}>
-        <Text style={{fontSize: 25, color: 'white'}}>Navegar</Text>
+        <Text style={{fontSize: 25, color: 'white'}}>Carrito</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={{
@@ -136,6 +106,20 @@ const index = ({navigation, route}) => {
           }}>
           <Text style={{fontSize: 25, color: 'white'}}>Comprar</Text>
         </TouchableOpacity>
+        {cart.includes(parseInt(character?.id, 10)) ? (
+          <TouchableOpacity
+            style={{
+              backgroundColor: 'red',
+              padding: 7,
+              borderRadius: 5,
+              margin: 10,
+            }}
+            onPress={() => {
+              setModalDeleteIsOpen(true);
+            }}>
+            <Text style={{fontSize: 25, color: 'white'}}>Eliminar</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
     </SafeAreaView>
   );

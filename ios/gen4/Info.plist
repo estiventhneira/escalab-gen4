@@ -4,6 +4,12 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>enasdfasd</string>
+	<key>NSCameraUsageDescription</key>
+	<string>enasdfasd</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>asdfdasf</string>
 	<key>CFBundleDisplayName</key>
 	<string>gen4</string>
 	<key>CFBundleExecutable</key>
